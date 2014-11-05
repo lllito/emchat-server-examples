@@ -1,5 +1,27 @@
 package com.easemob.server.example.jersey.utils;
 
+import com.easemob.server.example.comm.HTTPMethod;
+import com.easemob.server.example.jersey.vo.Credentail;
+import com.easemob.server.example.jersey.vo.Token;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import org.apache.http.NameValuePair;
+import org.glassfish.jersey.client.JerseyClient;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.client.JerseyWebTarget;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.*;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,34 +33,6 @@ import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.apache.http.NameValuePair;
-import org.glassfish.jersey.client.JerseyClient;
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.client.JerseyWebTarget;
-import org.glassfish.jersey.media.multipart.FormDataMultiPart;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.easemob.server.example.comm.HTTPMethod;
-import com.easemob.server.example.jersey.vo.Credentail;
-import com.easemob.server.example.jersey.vo.Token;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 /**
  * Jersey2.9 Utils
@@ -75,7 +69,6 @@ public class JerseyUtils {
 
 			Invocation.Builder inBuilder = jerseyWebTarget.request();
 			if (credentail != null) {
-				//inBuilder.header("Authorization", "Bearer YWMtXTzzLkX_EeSRRA0PhthlrwAAAUnqX7TBUDddVXrfAPHQyGJzZRyRKzGtw8E");
 				 Token.applyAuthentication(inBuilder, credentail);
 			}
 
@@ -127,13 +120,9 @@ public class JerseyUtils {
 			List<NameValuePair> headers, File localPath) throws IOException {
 
 		Invocation.Builder inBuilder = jerseyWebTarget.request();
-		/*
-		 * if (credentail != null) { // add token into headers Token.applyAuthentication(inBuilder, credentail); }
-		 */
-
 		if (credentail != null) {
-			inBuilder.header("Authorization", "Bearer YWMtXTzzLkX_EeSRRA0PhthlrwAAAUnqX7TBUDddVXrfAPHQyGJzZRyRKzGtw8E");
-		}
+            Token.applyAuthentication(inBuilder, credentail);
+        }
 
 		if (null != headers && !headers.isEmpty()) {
 

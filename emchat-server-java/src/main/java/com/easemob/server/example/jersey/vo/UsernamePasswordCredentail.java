@@ -1,19 +1,17 @@
 package com.easemob.server.example.jersey.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.core.MediaType;
-
+import com.easemob.server.example.comm.Constants;
+import com.easemob.server.example.comm.Roles;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.glassfish.jersey.client.JerseyWebTarget;
 
-import com.easemob.server.example.comm.Constants;
-import com.easemob.server.example.comm.Roles;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * UsernamePasswordCredentail
@@ -78,7 +76,7 @@ public class UsernamePasswordCredentail extends Credentail {
 				}
 
 				String accessToken = tokenRequest.get("access_token").asText();
-				Long expiredAt = tokenRequest.get("expires_in").asLong() + 7 * 24 * 60 * 60;
+				Long expiredAt = System.currentTimeMillis() + tokenRequest.get("expires_in").asLong();
 
 				token = new Token(accessToken, expiredAt);
 
