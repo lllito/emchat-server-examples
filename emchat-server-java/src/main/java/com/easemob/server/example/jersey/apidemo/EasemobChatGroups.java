@@ -99,7 +99,7 @@ public class EasemobChatGroups {
 		String delFromChatgroupid = "1405735927133519";
 		String toRemoveUsername = "xiaojianguo002";
 		ObjectNode deleteUserFromGroupNode = deleteUserFromGroup(delFromChatgroupid, toRemoveUsername);
-		System.out.println(deleteUserFromGroupNode.asText());
+		System.out.println(deleteUserFromGroupNode.toString());
 		
 		/**
 		 * 获取一个用户参与的所有群组
@@ -137,29 +137,19 @@ public class EasemobChatGroups {
 	 * @return
 	 */
 	public static ObjectNode getAllChatgroupids() {
-
 		ObjectNode objectNode = factory.objectNode();
-
 		// check appKey format
 		if (!JerseyUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+", APPKEY)) {
 			LOGGER.error("Bad format of Appkey: " + APPKEY);
-
 			objectNode.put("message", "Bad format of Appkey");
-
 			return objectNode;
 		}
-
 		try {
-
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-
-			JerseyWebTarget webTarget = null;
-			webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
+			JerseyWebTarget webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
 					.resolveTemplate("app_name", APPKEY.split("#")[1]);
-
 			objectNode = JerseyUtils.sendRequest(webTarget, null, credentail, HTTPMethod.METHOD_GET, null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,27 +164,18 @@ public class EasemobChatGroups {
 	 */
 	public static ObjectNode getGroupDetailsByChatgroupid(String[] chatgroupIDs) {
 		ObjectNode objectNode = factory.objectNode();
-
 		// check appKey format
 		if (!JerseyUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+", APPKEY)) {
 			LOGGER.error("Bad format of Appkey: " + APPKEY);
-
 			objectNode.put("message", "Bad format of Appkey");
-
 			return objectNode;
 		}
-
 		try {
-
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-
-			JerseyWebTarget webTarget = null;
-			webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
+			JerseyWebTarget webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
 					.resolveTemplate("app_name", APPKEY.split("#")[1]).path(chatgroupIDs.toString());
-
 			objectNode = JerseyUtils.sendRequest(webTarget, null, credentail, HTTPMethod.METHOD_GET, null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -207,73 +188,51 @@ public class EasemobChatGroups {
 	 * 
 	 */
 	public static ObjectNode creatChatGroups(ObjectNode dataObjectNode) {
-
 		ObjectNode objectNode = factory.objectNode();
-
 		// check appKey format
 		if (!JerseyUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+", APPKEY)) {
 			LOGGER.error("Bad format of Appkey: " + APPKEY);
-
 			objectNode.put("message", "Bad format of Appkey");
-
 			return objectNode;
 		}
-
 		// check properties that must be provided
 		if (!dataObjectNode.has("groupname")) {
 			LOGGER.error("Property that named groupname must be provided .");
-
 			objectNode.put("message", "Property that named groupname must be provided .");
-
 			return objectNode;
 		}
 		if (!dataObjectNode.has("desc")) {
 			LOGGER.error("Property that named desc must be provided .");
-
 			objectNode.put("message", "Property that named desc must be provided .");
-
 			return objectNode;
 		}
 		if (!dataObjectNode.has("public")) {
 			LOGGER.error("Property that named public must be provided .");
-
 			objectNode.put("message", "Property that named public must be provided .");
-
 			return objectNode;
 		}
 		if (!dataObjectNode.has("approval")) {
 			LOGGER.error("Property that named approval must be provided .");
-
 			objectNode.put("message", "Property that named approval must be provided .");
-
 			return objectNode;
 		}
 		if (!dataObjectNode.has("owner")) {
 			LOGGER.error("Property that named owner must be provided .");
-
 			objectNode.put("message", "Property that named owner must be provided .");
-
 			return objectNode;
 		}
 		if (!dataObjectNode.has("members") || !dataObjectNode.path("members").isArray()) {
 			LOGGER.error("Property that named members must be provided .");
-
 			objectNode.put("message", "Property that named members must be provided .");
-
 			return objectNode;
 		}
-
 		try {
-
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-
 			JerseyWebTarget webTarget = null;
 			webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
 					.resolveTemplate("app_name", APPKEY.split("#")[1]);
-
 			objectNode = JerseyUtils.sendRequest(webTarget, dataObjectNode, credentail, HTTPMethod.METHOD_POST, null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -287,27 +246,19 @@ public class EasemobChatGroups {
 	 */
 	public static ObjectNode deleteChatGroups(String chatgroupid) {
 		ObjectNode objectNode = factory.objectNode();
-
 		// check appKey format
 		if (!JerseyUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+", APPKEY)) {
 			LOGGER.error("Bad format of Appkey: " + APPKEY);
-
 			objectNode.put("message", "Bad format of Appkey");
-
 			return objectNode;
 		}
-
 		try {
-
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-
 			JerseyWebTarget webTarget = null;
 			webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
 					.resolveTemplate("app_name", APPKEY.split("#")[1]).path(chatgroupid);
-
 			objectNode = JerseyUtils.sendRequest(webTarget, null, credentail, HTTPMethod.METHOD_DELETE, null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -320,29 +271,20 @@ public class EasemobChatGroups {
 	 * 
 	 */
 	public static ObjectNode getAllMemberssByGroupId(String chatgroupid) {
-
 		ObjectNode objectNode = factory.objectNode();
-
 		// check appKey format
 		if (!JerseyUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+", APPKEY)) {
 			LOGGER.error("Bad format of Appkey: " + APPKEY);
-
 			objectNode.put("message", "Bad format of Appkey");
-
 			return objectNode;
 		}
-
 		try {
-
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-
 			JerseyWebTarget webTarget = null;
 			webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
 					.resolveTemplate("app_name", APPKEY.split("#")[1]).path(chatgroupid).path("users");
-
 			objectNode = JerseyUtils.sendRequest(webTarget, null, credentail, HTTPMethod.METHOD_GET, null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -355,30 +297,20 @@ public class EasemobChatGroups {
 	 * 
 	 */
 	public static ObjectNode addUserToGroup(String chatgroupid, String userprimarykey) {
-
 		ObjectNode objectNode = factory.objectNode();
-
 		// check appKey format
 		if (!JerseyUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+", APPKEY)) {
 			LOGGER.error("Bad format of Appkey: " + APPKEY);
-
 			objectNode.put("message", "Bad format of Appkey");
-
 			return objectNode;
 		}
-
 		try {
-
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-
-			JerseyWebTarget webTarget = null;
-			webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
+			JerseyWebTarget webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
 					.resolveTemplate("app_name", APPKEY.split("#")[1]).path(chatgroupid).path("users")
 					.path(userprimarykey);
-
 			objectNode = JerseyUtils.sendRequest(webTarget, null, credentail, HTTPMethod.METHOD_POST, null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -392,28 +324,19 @@ public class EasemobChatGroups {
 	 */
 	public static ObjectNode deleteUserFromGroup(String chatgroupid, String userprimarykey) {
 		ObjectNode objectNode = factory.objectNode();
-
 		// check appKey format
 		if (!JerseyUtils.match("^(?!-)[0-9a-zA-Z\\-]+#[0-9a-zA-Z]+", APPKEY)) {
 			LOGGER.error("Bad format of Appkey: " + APPKEY);
-
 			objectNode.put("message", "Bad format of Appkey");
-
 			return objectNode;
 		}
-
 		try {
-
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-
-			JerseyWebTarget webTarget = null;
-			webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
+			JerseyWebTarget webTarget = EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
 					.resolveTemplate("app_name", APPKEY.split("#")[1]).path(chatgroupid).path("users")
 					.path(userprimarykey);
-
 			objectNode = JerseyUtils.sendRequest(webTarget, null, credentail, HTTPMethod.METHOD_DELETE, null);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -440,11 +363,11 @@ public class EasemobChatGroups {
 			objectNode.put("message", "Property that named username must be provided .");
 			return objectNode;
 		}
-
 		try {
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-			objectNode = JerseyUtils.sendRequest(EndPoints.USERS_TARGET.path(username).path("joined_chatgroups"), null, credentail, HTTPMethod.METHOD_GET, null);
+			objectNode = JerseyUtils.sendRequest(EndPoints.USERS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
+                    .resolveTemplate("app_name", APPKEY.split("#")[1]).path(username).path("joined_chatgroups"), null, credentail, HTTPMethod.METHOD_GET, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -478,11 +401,11 @@ public class EasemobChatGroups {
 			objectNode.put("message", "Property that named usernames must be provided .");
 			return objectNode;
 		}
-
 		try {
 			Credentail credentail = new UsernamePasswordCredentail(Constants.APP_ADMIN_USERNAME,
 					Constants.APP_ADMIN_PASSWORD, Roles.USER_ROLE_APPADMIN);
-			objectNode = JerseyUtils.sendRequest(EndPoints.CHATGROUPS_TARGET.path(toAddBacthChatgroupid).path("users"), usernames, credentail, HTTPMethod.METHOD_POST, null);
+			objectNode = JerseyUtils.sendRequest(EndPoints.CHATGROUPS_TARGET.resolveTemplate("org_name", APPKEY.split("#")[0])
+                    .resolveTemplate("app_name", APPKEY.split("#")[1]).path(toAddBacthChatgroupid).path("users"), usernames, credentail, HTTPMethod.METHOD_POST, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

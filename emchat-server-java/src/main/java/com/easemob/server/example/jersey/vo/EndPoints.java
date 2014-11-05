@@ -17,9 +17,7 @@ public interface EndPoints {
 	public final JerseyClient CLIENT = JerseyUtils.getJerseyClient(true);
 
 	public final JerseyWebTarget ROOT_TARGET = CLIENT
-			.target(Constants.API_HTTP_SCHEMA + "://"
-					+ Constants.API_SERVER_HOST + ":"
-					+ Constants.API_SERVER_PORT + "/");
+			.target(Constants.API_HTTP_SCHEMA + "://" + Constants.API_SERVER_HOST + "/");
 
 	public JerseyWebTarget MANAGEMENT_TARGET = ROOT_TARGET.path("management");
 
