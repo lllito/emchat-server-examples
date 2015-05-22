@@ -83,7 +83,6 @@ class Easemob {
 	 * 重置用户密码
 	 *
 	 * @param $options['username'] 用户名        	
-	 * @param $options['password'] 密码        	
 	 * @param $options['newpassword'] 新密码        	
 	 */
 	public function editPassword($options) {
